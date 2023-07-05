@@ -1,0 +1,153 @@
+$background: #363532;
+$accent_dark: #585858;
+$accent_light: #dbdbdb;
+$font: #c0beb5;
+
+
+@font-face {
+  font-family: customF;
+  src: url(../../../assets/VeganStylePersonalUse-5Y58.ttf) format("truetype");
+}
+
+html {
+  body {
+    nav {
+      z-index: 1;
+      background-color: transparent;
+      align-items: center;
+
+      div {
+        z-index: 1;
+        height: 50px;
+
+        h1 {
+          z-index: 1;
+          color: $accent_light;
+          font-size: 55px;
+          white-space: nowrap;
+          margin: 10px;
+          position: absolute;
+        }
+
+        button {
+          z-index: 1;
+          font-size: 21px;
+          white-space: nowrap;
+          margin: 10px;
+          background-color: transparent;
+          border: none;
+          box-shadow: none;
+          color: $accent_light;
+        }
+
+        button:hover {
+          z-index: 1;
+          // border-bottom: $font 3px solid;
+          border: none;
+          color: $font;
+
+          img {
+            filter: invert(100%);
+          }
+        }
+      }
+    }
+
+    div {
+      z-index: 1;
+      text-align: center;
+
+      mat-card {
+        top: 170px;
+        border-radius: 17px;
+        width: 450px;
+        background-color: rgba(255, 255, 255, .15);
+        box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+        backdrop-filter: blur(15px);
+        z-index: 1;
+        font-size: 17px;
+        color: $font;
+
+        form {
+          color: $font;
+          z-index: 1;
+
+          p {
+            color: $font;
+            z-index: 1;
+
+            mat-form-field {
+              color: $font;
+              z-index: 1;
+
+              mat-label {
+                color: grey;
+                z-index: 1;
+
+              }
+
+              input {
+                z-index: 1;
+
+              }
+            }
+          }
+
+          button {
+            z-index: 1;
+            font-size: 21px;
+            white-space: nowrap;
+            margin: 10px;
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            color: $font;
+          }
+
+          button:hover {
+            z-index: 1;
+            // border-bottom: $font 3px solid;
+            border: none;
+            color: $accent_light;
+
+            img {
+              filter: invert(100%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  img {
+    z-index: 0;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+  }
+}
+
+.leftFloat {
+  float: right;
+}
+
+#arrowWidht {
+  width: 20px;
+  left: -10px;
+  top: +7px;
+  display: inline;
+  filter: invert(60%);
+  // filter: saturate(3);
+}
+
+.logo {
+  font-family: customF;
+}
+
+.center {
+  top: 100px;
+  z-index: 1;
+  margin: auto;
+  width: 20%;
+}

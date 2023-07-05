@@ -1,0 +1,50 @@
+<html>
+<body>
+
+<div>
+  <mat-card class="center">
+    <form (ngSubmit)="signup()" [formGroup]="signupForm">
+
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Teljes név</mat-label>
+          <input autocomplete="off"
+                 formControlName="displayName"
+                 matInput
+                 placeholder="Teljes név" type="text">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input formControlName="email"
+                 matInput
+                 placeholder="Email" type="email">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Jelszó</mat-label>
+          <input autocomplete="off"
+                 formControlName="password"
+                 matInput
+                 placeholder="Jelszó" type="password">
+        </mat-form-field>
+      </p>
+      <div *ngIf="firebaseErrorMessage != ''"
+           class="error-style">
+        <span>{{ firebaseErrorMessage }}</span>
+      </div>
+
+      <button color="primary" mat-raised-button>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+        Regisztráció
+      </button>
+    </form>
+  </mat-card>
+</div>
+<img alt="background" src="../../../assets/bg3.jpg">
+</body>
+</html>
+
+

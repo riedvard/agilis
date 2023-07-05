@@ -1,0 +1,52 @@
+<nav>
+  <div>
+    <!-- <h1 class="leftFloat, logo">Financial</h1> -->
+    <img alt="" src="../../../assets/logo.png">
+  </div>
+  <span *ngIf="checkIfLoggedIn()" style="float: right"> </span>
+  <div>
+    <!-- <div data-ng-controller="myCtrl" data-ng-init="ngOnInit()"></div> -->
+
+    <button (click)="logout()" *ngIf="checkIfLoggedIn()" color="primary" mat-raised-button>
+      <mat-icon>close</mat-icon>
+      Kijelentkezés
+    </button>
+
+    <button *ngIf="!(checkIfLoggedIn())" class="leftFloat" color="primary" mat-raised-button routerLink="/signup">
+      <mat-icon>swap_vertical_circle</mat-icon>
+      Regisztráció
+    </button>
+
+    <button *ngIf="!(checkIfLoggedIn())" class="leftFloat " color="primary" mat-raised-button routerLink="/login">
+      <mat-icon>arrow_right_alt</mat-icon>
+      Bejelentkezés
+    </button>
+
+    <button *ngIf="checkIfLoggedIn()" color="primary" mat-raised-button routerLink="/stats">
+      <mat-icon>assessment</mat-icon>
+      Kiadási statisztikák
+    </button>
+
+    <button *ngIf="checkIfLoggedIn()" color="primary" mat-raised-button routerLink="/budget">
+      <mat-icon>money</mat-icon>
+      Bevételi kategóriák
+    </button>
+    <button *ngIf="checkIfLoggedIn()" color="primary" mat-raised-button routerLink="/expenses">
+      <mat-icon>money_off</mat-icon>
+      Kiadási kategóriák
+    </button>
+    <button *ngIf="checkIfLoggedIn()" color="primary" mat-raised-button routerLink="/income">
+      <mat-icon>attach_money</mat-icon>
+      Pénzügyek
+    </button>
+
+
+    <button class="leftFloat" color="primary" mat-raised-button routerLink="/home">
+      <mat-icon>home</mat-icon>
+      Főoldal
+    </button>
+
+  </div>
+</nav>
+
+

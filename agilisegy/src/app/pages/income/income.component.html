@@ -1,0 +1,191 @@
+<html>
+<body>
+
+
+<div class="divs">
+  <div>
+    <form (ngSubmit)="changeBontas()" [formGroup]="bontasForm">
+
+      <mat-form-field class="selector" color="accent" style="width: 20%">
+        <mat-label>Periódus</mat-label>
+        <mat-select (selectionChange)="changeBontas()" [(ngModel)]="selectedPeriod" [compareWith]="compare"
+                    formControlName="period">
+          <mat-option *ngFor="let  bontas of bontasok" [value]="bontas">{{bontas.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedPeriod?.id==0" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott nap</mat-label>
+        <input [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD" matInput>
+        <mat-hint>YYYY/MM/DD</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedPeriod?.id==1" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott hét</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD"
+               matInput>
+        <mat-hint>YYYY/MM/DD</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedPeriod?.id==2" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott hónap</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="dp" datePickerFormat="YYYY/MM"
+               matInput>
+        <mat-hint>YYYY/MM</mat-hint>
+        <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        (monthSelected)="setMonthAndYear($event, dp)"
+                        panelClass="example-month-picker"
+                        startView="multi-year">
+        </mat-datepicker>
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="selectedPeriod?.id==3" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott év</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="dp" datePickerFormat="YYYY" matInput>
+        <mat-hint>YYYY</mat-hint>
+        <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        (yearSelected)="setYear($event, dp)"
+                        panelClass="example-month-picker"
+                        startView="multi-year"
+        >
+        </mat-datepicker>
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="selectedPeriod?.id==4" class="sindleDate" color="accent">
+        <mat-label> Kiválasztott nap</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD"
+               matInput>
+        <mat-hint>YYYY/MM/DD</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button (click)="setCurrentDate()" class="actual" mat-flat-button>aktuális</button>
+    </form>
+
+  </div>
+  <mat-card> Rendelkezésre álló {{selectedPeriod.name}} költségkeret:  {{round(allBevetel - allKiadas)}} Ft</mat-card>
+  <br>
+
+  <mat-accordion class="example-headers-align " multi>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Bevétel</mat-panel-title>
+        <mat-panel-description class="money">{{round(allBevetel)}} Ft</mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <span>
+
+
+        <button (click)="openUpdateBevDialog(undefined,
+                undefined,
+                 undefined,
+                  undefined,
+                  undefined, undefined,undefined)" class="input" color="warn" mat-flat-button>
+          Bevétel hozzáadása
+        </button>
+
+        <div style="height:120px; overflow: auto">
+          <table style="width: 100%">
+            <tr>
+              <th class="tablepart">Bevétel neve</th>
+              <th class="tablepart">Típus</th>
+              <th class="tablepart">Periodikusság</th>
+              <th class="tablepart">Érték</th>
+              <th class="tablepart">{{selectedPeriod.name}} bontásban</th>
+            </tr>
+            <tr *ngFor="let name of bevetels | async; let i = index">
+              <td class="tablepart">{{name.name}}</td>
+              <td class="tablepart">{{name.type.name}}</td>
+              <td class="tablepart">{{name.period.name}}</td>
+              <td class="tablepart">{{name.value}} Ft</td>
+              <td class="tablepart">{{round(getHavi(name))}} Ft</td>
+              <td class="editButton"><button (click)="openUpdateBevDialog(name.name,
+                name.type,
+                 name.period,
+                  name.value,
+                  name.id,
+                  name.startDate,
+                  name.endDate)"
+                                             mat-flat-button
+                                             style="background-color: rgba(63, 168, 10, 0.781); width: 30%; height: 40px; margin-left:5%;">
+                  <mat-icon>edit</mat-icon></button></td>
+              <td class="removeButton"><button (click)="deleteBevetel(name.id)" mat-flat-button
+                                               style="background-color: rgb(244, 67, 54); width: 30%; height: 40px; margin-left:5%;"
+                                               type="delete">
+                <mat-icon>delete</mat-icon></button></td>
+            </tr>
+          </table>
+        </div>
+    </span>
+    </mat-expansion-panel>
+
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Kiadás</mat-panel-title>
+        <mat-panel-description class="money">{{round(allKiadas)}} Ft</mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <span>
+
+
+
+        <button (click)="openUpdateKiadDialog(undefined,
+                undefined,
+                 undefined,
+                  undefined,
+                  undefined, undefined,undefined)" class="input" color="warn" mat-flat-button>
+          Kiadás hozzáadása
+        </button>
+
+        <div style=" height:120px; overflow: auto">
+          <table style="width: 100%">
+            <tr>
+              <th class="tablepart">Kiadás neve</th>
+              <th class="tablepart">Típus</th>
+              <th class="tablepart">Periodikusság</th>
+              <th class="tablepart">Érték</th>
+              <th class="tablepart">{{selectedPeriod.name}} bontásban</th>
+            </tr>
+            <tr *ngFor="let name of kiadasok | async; let i = index">
+              <td class="tablepart">{{name.name}}</td>
+              <td class="tablepart">{{name.type.name}}</td>
+              <td class="tablepart">{{name.period.name}}</td>
+              <td class="tablepart">{{name.value }} Ft</td>
+              <td class="tablepart">{{round(getHavi(name))}} Ft</td>
+              <td class="editButton"><button (click)="openUpdateKiadDialog(name.name,
+                name.type,
+                 name.period,
+                  name.value,
+                  name.id,
+                  name.startDate,
+                  name.endDate)" class="szerk"
+                                             mat-flat-button>
+                  <mat-icon>edit</mat-icon></button></td>
+              <td class="removeButton"><button (click)="deleteKiadas(name.id)" class="torol" mat-flat-button
+                                               type="delete">
+                <mat-icon>delete</mat-icon></button></td>
+            </tr>
+          </table>
+        </div>
+      </span>
+    </mat-expansion-panel>
+
+
+  </mat-accordion>
+
+
+</div>
+
+<img class="decrease" src="../../../assets/bg.jpg">
+</body>
+</html>

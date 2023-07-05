@@ -1,0 +1,91 @@
+$background: #362706;
+
+html {
+  body {
+    background-color: none;
+    margin-top: 200px;
+    table-layout: auto;
+
+    div {
+      div {
+
+        table {
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+          position: static;
+
+          .mat-column-name, .mat-column-period, .mat-column-value {
+            text-align: center;
+            width: 33%;
+          }
+        }
+      }
+    }
+
+    img {
+      z-index: -3;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      position: absolute;
+
+    }
+
+  }
+}
+
+
+.selector {
+  width: 30%;
+  height: 5%;
+  font-size: 20px;
+  margin-left: 5%;
+  margin-bottom: 3%;
+  padding: 0;
+}
+
+.sindleDate {
+  width: 30%;
+  height: 5%;
+  font-size: 20px;
+  margin-left: 5%;
+  margin-bottom: 3%;
+  padding: 0;
+}
+
+.actual {
+  width: 25%;
+  height: 5%;
+  font-size: 20px;
+  margin-left: 5%;
+  margin-bottom: 3%;
+  padding: 0;
+  color: #EEEEEE;
+  background: hotpink;
+}
+
+table {
+  width: 90%;
+}
+
+.mat-cell {
+  font-size: large;
+}
+
+.mat-header-cell {
+  font-size: large;
+}
+
+.divs {
+
+  padding: 2%;
+  width: 80%;
+  background-color: rgba(255, 255, 255, .15);
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  backdrop-filter: blur(15px);
+  border: none;
+  border-radius: 7px;
+  color: $background;
+  margin-left: 7.5%;
+}

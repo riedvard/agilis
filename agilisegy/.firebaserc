@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "agilisegy": {
+      "hosting": {
+        "agilisegy": [
+          "agilisegy"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "agilisegy"
+  }
+}

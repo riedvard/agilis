@@ -1,0 +1,165 @@
+<html>
+<body>
+<div class="divs">
+  <div>
+    <form (ngSubmit)="changeBontas()" [formGroup]="bontasForm">
+
+      <mat-form-field class="selector" color="accent" style="width: 20%">
+        <mat-label>Periódus</mat-label>
+        <mat-select (selectionChange)="changeBontas()" [(ngModel)]="selectedPeriod" [compareWith]="compare"
+                    formControlName="period">
+          <mat-option *ngFor="let  bontas of bontasok" [value]="bontas">{{bontas.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedPeriod?.id==0" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott nap</mat-label>
+        <input [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD" matInput>
+        <mat-hint>YYYY/MM/DD</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedPeriod?.id==1" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott hét</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD"
+               matInput>
+        <mat-hint>YYYY/MM/DD</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedPeriod?.id==2" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott hónap</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="dp" datePickerFormat="YYYY/MM"
+               matInput>
+        <mat-hint>YYYY/MM</mat-hint>
+        <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        (monthSelected)="setMonthAndYear($event, dp)"
+                        panelClass="example-month-picker"
+                        startView="multi-year">
+        </mat-datepicker>
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="selectedPeriod?.id==3" class="sindleDate" color="accent">
+        <mat-label>Kiválasztott év</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="dp" datePickerFormat="YYYY" matInput>
+        <mat-hint>YYYY</mat-hint>
+        <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        (yearSelected)="setYear($event, dp)"
+                        panelClass="example-month-picker"
+                        startView="multi-year"
+        >
+        </mat-datepicker>
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="selectedPeriod?.id==4" class="sindleDate" color="accent">
+        <mat-label> Kiválasztott nap</mat-label>
+        <input (dateInput)="update()" [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD"
+               matInput>
+        <mat-hint>YYYY/MM/DD</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button (click)="setCurrentDate()" class="actual" mat-flat-button>aktuális</button>
+    </form>
+  </div>
+<div style="display: flex">
+  <div *ngIf="graph!=undefined" style="flex: 3; margin-left: 10%">
+    <plotly-plot [data]="graph.data" [layout]="graph.layout">
+    </plotly-plot>
+  </div>
+  <div *ngIf="statistic!=undefined" style="flex: 3; margin-right: 35%">
+    <plotly-plot [data]="statistic.data" [layout]="statistic.layout">
+    </plotly-plot>
+  </div>
+</div>
+<div *ngFor="let table of tables" class="center">
+  <div>
+
+      <mat-expansion-panel [style.backgroundColor]="precentage(totalCost(table)) > 40 ? '#d20606': '#3fa80a'"
+                           style="width: 80%;left: 10%">
+
+        <mat-expansion-panel-header style="height: 50px">
+          <mat-panel-title style=" text-align: right; font-size: 25px; color: #000000; height: 50px">
+            <strong>{{table[0].type.name}}:</strong></mat-panel-title>
+          <mat-panel-description style=" text-align: right; font-size: 25px; color: #000000; height: 50px">
+            Arány: {{precentage(totalCost(table))}} %
+          </mat-panel-description>
+          <mat-panel-description style=" text-align: right; font-size: 25px; color: #000000; height: 50px">
+            Összesen: {{round(totalCost(table))}} Ft
+          </mat-panel-description>
+
+        </mat-expansion-panel-header>
+
+        <table [dataSource]="table" class="mat-elevation-z8" mat-table>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell> Kiadás neve</th>
+            <td *matCellDef="let element"
+                [style.backgroundColor]="precentage(getHavi(element)) > 40 ? 'rgba(210,6,6,0.44)': 'rgba(63,168,10,0.48)'"
+                [style.color]="precentage(getHavi(element)) > 40 ? 'red': '#1c4b08'"
+                mat-cell
+            > {{element.name}} </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="period">
+            <th *matHeaderCellDef mat-header-cell> Kiadás neve</th>
+            <td *matCellDef="let element"
+                [style.backgroundColor]="precentage(getHavi(element)) > 40 ? 'rgba(210,6,6,0.44)': 'rgba(63,168,10,0.48)'"
+                [style.color]="precentage(getHavi(element)) > 40 ? 'red': '#1c4b08'"
+                mat-cell
+            > {{element.period.name}} </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="value">
+            <th *matHeaderCellDef mat-header-cell> Értéke</th>
+            <td *matCellDef="let element"
+                [style.backgroundColor]="precentage(getHavi(element)) > 40 ? 'rgba(210,6,6,0.44)': 'rgba(63,168,10,0.48)'"
+                [style.color]="precentage(getHavi(element)) > 40 ? 'red': '#1c4b08'"
+                mat-cell
+            > {{element.value}} Ft
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="monthly">
+            <th *matHeaderCellDef mat-header-cell> Bontásban</th>
+            <td *matCellDef="let element"
+                [style.backgroundColor]="precentage(getHavi(element)) > 40 ? 'rgba(210,6,6,0.44)': 'rgba(63,168,10,0.48)'"
+                [style.color]="precentage(getHavi(element)) > 40 ? 'red': '#1c4b08'"
+                mat-cell
+            > {{round(getHavi(element))}} Ft
+            </td>
+          </ng-container>
+
+
+
+          <ng-container matColumnDef="precent">
+            <th *matHeaderCellDef mat-header-cell> Százalékosan</th>
+            <td *matCellDef="let element" mat-cell> {{precentage(getHavi(element))}} Ft</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="columnsToDisplay" mat-header-row></tr>
+          <tr *matRowDef="let myRowData; columns: columnsToDisplay" mat-row></tr>
+
+
+        </table>
+      </mat-expansion-panel>
+      <br>
+      <br>
+      <br>
+
+
+    </div>
+  </div>
+</div>
+<img class="decrease" src="../../../assets/bg.jpg">
+</body>
+</html>

@@ -1,0 +1,77 @@
+$background: #362706;
+$accent_dark: #464E2E;
+$accent_light: #ACB992;
+$font: #E9E5D6;
+
+
+@font-face {
+  font-family: customF;
+  src: url(../../../assets/VeganStylePersonalUse-5Y58.ttf) format("truetype");
+}
+
+nav {
+  z-index: 1;
+  background-color: transparent;
+  align-items: center;
+  position: fixed;
+  width: 95%;
+  top: -50px;
+
+  div {
+    z-index: 1;
+    padding: 20px;
+    width: 100%;
+
+    h1 {
+      z-index: 1;
+      color: $accent_light;
+      font-size: 55px;
+      white-space: nowrap;
+      margin: 10px;
+      position: absolute;
+    }
+
+    img {
+      position: fixed;
+      width: 120px;
+      top: 20px;
+      filter: invert(100%);
+      height: auto;
+    }
+
+    button {
+      z-index: 1;
+      font-size: 21px;
+      white-space: nowrap;
+      margin: 7px;
+      padding: 7px;
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      color: $accent_light;
+    }
+
+    button:hover {
+      z-index: 1;
+      // border-bottom: $font 3px solid;
+      border: none;
+      color: $font;
+    }
+  }
+}
+
+
+.leftFloat {
+  float: left;
+}
+
+
+.logo {
+  font-family: customF !important;
+  top: 80px;
+}
+
+div button {
+  float: right;
+}
+

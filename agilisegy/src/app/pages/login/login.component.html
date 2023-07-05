@@ -1,0 +1,66 @@
+<html>
+<body>
+<mat-card class="center">
+  <form (ngSubmit)="loginUser()" [formGroup]="loginForm">
+    <p>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input autocomplete="off"
+               formControlName="email"
+               matInput
+               placeholder="Email" type="email">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Jelszó</mat-label>
+        <input autocomplete="off"
+               formControlName="password"
+               matInput
+               placeholder="Password" type="password">
+      </mat-form-field>
+    </p>
+    <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+      <span>{{ firebaseErrorMessage }}</span>
+    </div>
+
+    <button color="primary" mat-raised-button type="submit">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+      Bejelentkezés
+    </button>
+
+
+    <!-- <button mat-raised-button color="primary" (click)="addExample()">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+        add test button
+    </button>
+    <button mat-raised-button color="primary" (click)="removeExample(13)">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+        remove test button
+    </button>
+    <button mat-raised-button color="primary" (click)="getExample()">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+        get test button
+    </button> -->
+  </form>
+  <button (click)="loginWithGmail()" color="primary" mat-raised-button>
+    <mat-icon>g_translate</mat-icon>
+    Bejelentkezés Google fiókkal
+  </button>
+
+  <button (click)="facebookLogin()" color="primary" mat-raised-button>
+    <mat-icon>facebook</mat-icon>
+    Bejelentkezés Facebook fiókkal
+  </button>
+
+
+  <tr *ngFor="let item of TestHolder; let i = index">
+    <td>First Name: {{item.firstname}} </td>
+    <td>Last Name: {{item.lastname}} </td>
+    <td>id: {{i}} </td>
+    <br/>
+  </tr>
+</mat-card>
+<img alt="background" src="../../../assets/bg2.jpg">
+</body>
+</html>

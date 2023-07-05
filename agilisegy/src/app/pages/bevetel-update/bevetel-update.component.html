@@ -1,0 +1,127 @@
+<form [formGroup]="updateForm">
+  <h3>Bevétel {{title}}</h3>
+  <mat-form-field class="input">
+    <mat-label>Bevétel neve</mat-label>
+    <input focus formControlName="name" matInput required>
+  </mat-form-field>
+  <mat-form-field class="input">
+    <mat-label>Típusa</mat-label>
+    <mat-select [(ngModel)]="type" [compareWith]="compareObj" formControlName="type" required>
+      <mat-option *ngFor="let kiadkat of bevtypes | async; let i = index" [value]="kiadkat">{{kiadkat.name}}
+      </mat-option>
+      <mat-option *ngFor="let kiadkat of basicBeveteliKat" [value]="kiadkat">{{kiadkat.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="input">
+    <mat-label>Periodikusság</mat-label>
+    <mat-select [(ngModel)]="period" [compareWith]="compareObj" formControlName="period" required>
+      <mat-option *ngFor="let period of periods" [value]="period">{{period.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="input">
+    <mat-label>Összeg (Ft)</mat-label>
+    <input formControlName="value" matInput min="1" type="number" required>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="period?.id==0" class="input" color="accent">
+    <mat-label>Bevétel napja</mat-label>
+    <input [formControl]="startdate" [matDatepicker]="picker" datePickerFormat="YYYY/MM/DD" matInput >
+    <mat-hint>YYYY/MM/DD</mat-hint>
+    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="period?.id==1" class="input" color="accent">
+    <mat-label> Időszak</mat-label>
+    <mat-date-range-input [rangePicker]="picker" required>
+      <input [formControl]="startdate" datePickerFormat="YYYY/MM/DD" matStartDate placeholder="Mettől">
+      <input [formControl]="enddate" datePickerFormat="YYYY/MM/DD" matEndDate placeholder="Meddig">
+    </mat-date-range-input>
+    <mat-hint>YYYY/MM/DD – YYYY/MM/DD</mat-hint>
+    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="period?.id==2" color="accent" style="width: 35%; margin-left: 10%">
+    <mat-label>Mettől</mat-label>
+    <input [formControl]="startdate" [matDatepicker]="dp" datePickerFormat="YYYY/MM" matInput>
+    <mat-hint>YYYY/MM</mat-hint>
+    <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #dp
+                    (monthSelected)="setMonthAndYear($event, dp, startdate)"
+                    panelClass="example-month-picker"
+                    startView="multi-year">
+    </mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="period?.id==2" color="accent" style="width: 35%; margin-left: 10%">
+    <mat-label>Meddig</mat-label>
+    <input [formControl]="enddate" [matDatepicker]="dp" datePickerFormat="YYYY/MM" matInput>
+    <mat-hint>YYYY/MM</mat-hint>
+    <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #dp
+                    (monthSelected)="setMonthAndYear($event, dp, enddate)"
+                    panelClass="example-month-picker"
+                    startView="multi-year">
+    </mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="period?.id==3" color="accent" style="width: 35%; margin-left: 10%">
+    <mat-label>Mettől</mat-label>
+    <input [formControl]="startdate" [matDatepicker]="dp" datePickerFormat="YYYY" matInput>
+    <mat-hint>YYYY</mat-hint>
+    <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #dp
+                    (yearSelected)="setYear($event, dp, startdate)"
+                    panelClass="example-month-picker"
+                    startView="multi-year">
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-form-field *ngIf="period?.id==3" color="accent" style="width: 35%; margin-left: 10%">
+    <mat-label>Meddig</mat-label>
+    <input [formControl]="enddate" [matDatepicker]="dp" datePickerFormat="YYYY" matInput>
+    <mat-hint>YYYY</mat-hint>
+    <mat-datepicker-toggle [for]="dp" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #dp
+                    (yearSelected)="setYear($event, dp, enddate)"
+                    panelClass="example-month-picker"
+                    startView="multi-year">
+    </mat-datepicker>
+  </mat-form-field>
+
+
+  <mat-form-field *ngIf="period?.id==4" class="input" color="accent">
+    <mat-label> Időszak</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input [formControl]="startdate" datePickerFormat="YYYY/MM/DD" matStartDate placeholder="Mettől">
+      <input [formControl]="enddate" datePickerFormat="YYYY/MM/DD" matEndDate placeholder="Meddig">
+    </mat-date-range-input>
+    <mat-hint>YYYY/MM/DD – YYYY/MM/DD</mat-hint>
+    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+
+  <div style="display: flex; justify-content: flex-end;">
+    <button (click)="clear()" mat-button>Tisztít
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button (click)="loadPrevious()" mat-button>Előző
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button (click)="dialogRef.close()" class="margin-right" mat-button>Mégsem</button>
+    <button (click)="close()" [disabled]="updateForm.invalid" [mat-dialog-close]="updateForm.value"
+            mat-button>{{title}}</button>
+  </div>
+
+
+</form>
+
+
+
+
+
+

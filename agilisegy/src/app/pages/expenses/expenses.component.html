@@ -1,0 +1,31 @@
+<html>
+<body>
+<div>
+  <form (ngSubmit)="createKiadasiKategoria() " [formGroup]="kiadasiKategoriakForm" style="display: flex">
+    <mat-form-field appearance="fill">
+      <mat-label>Kategória neve</mat-label>
+      <input formControlName="name" matInput>
+    </mat-form-field>
+    <button mat-flat-button
+            style="background-color: rgba(63,168,10,0.48); width: 30%;height: 120px; margin-left:5%; font-size: 25px; text-align: center"
+            type="submit">
+      Kiadási <br> kategória<br> hozzáadása
+    </button>
+  </form>
+  <table style="width: 100%">
+    <tr>
+      <th colspan="2">Kiadási Kategóriák</th>
+    </tr>
+    <tr *ngFor="let kiadasikat of kiadasiKategoriak | async; let i = index">
+      <td>{{kiadasikat.name }}</td>
+      <td>
+        <button (click)="deleteKiadasiKategoria(kiadasikat.id)" color="warn" mat-fab>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+<img class="decrease" src="../../../assets/bg.jpg">
+</body>
+</html>

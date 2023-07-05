@@ -1,0 +1,123 @@
+$background: #362706;
+$accent_dark: #464E2E;
+$accent_light: #ACB992;
+$font: #E9E5D6;
+$err: #ff695e;
+
+html {
+  body {
+    background-color: none;
+
+    nav {
+      position: fixed;
+      top: 50px;
+      right: 60px;
+      float: right;
+      padding: 17px;
+
+      button {
+        z-index: 1;
+        font-size: 21px;
+        white-space: nowrap;
+        margin: 10px;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        color: $font;
+
+        img {
+          filter: invert(100%);
+        }
+      }
+
+      button {
+        z-index: 1;
+        font-size: 21px;
+        white-space: nowrap;
+        margin: 30px;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        color: $accent_light;
+      }
+
+      button:hover {
+        z-index: 1;
+        // border-bottom: $font 3px solid;
+        border: none;
+        color: $font;
+      }
+    }
+
+    div {
+      top: 230px;
+      position: relative;
+      z-index: 3;
+      font-size: 33px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, .15);
+      box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+      backdrop-filter: blur(15px);
+      border: none;
+      border-radius: 7px;
+      width: 270px;
+      color: $background;
+
+      img {
+        width: 130px;
+        left: 100px;
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 27px;
+        font-weight: bold;
+      }
+
+      p {
+        font-size: 23px;
+      }
+    }
+
+    img {
+      z-index: -3;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      position: absolute;
+    }
+  }
+}
+
+#arrowWidht {
+  width: 20px;
+  left: -10px;
+  top: +7px;
+  display: inline;
+}
+
+.elevate {
+  z-index: 3;
+}
+
+.decrease {
+  z-index: -33;
+}
+
+.center {
+  z-index: 1;
+  margin: auto;
+  padding: 10px;
+}
+
+.person-icon {
+  filter: invert(50%);
+  transform: scale(8);
+  top: 25px;
+  overflow: hidden;
+  position: absolute;
+  left: 150px;
+  margin: 50px;
+  padding: 10px;
+}
